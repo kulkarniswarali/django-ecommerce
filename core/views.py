@@ -350,6 +350,13 @@ class HomeView(ListView):
     paginate_by = 10
     template_name = "home.html"
 
+@login_required
+def categorywear(request,slug):
+    print(slug)
+    items = Item.objects.filter(category=slug)
+    print(items)
+    context = {'items':items}
+    return render(request, 'filtered-products.html', context)
 
 class OrderSummaryView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
@@ -366,6 +373,8 @@ class OrderSummaryView(LoginRequiredMixin, View):
 
 class ItemDetailView(DetailView):
     model = Item
+    lookup_field = 'slug'
+    print(lookup_field)
     template_name = "product.html"
 
 
